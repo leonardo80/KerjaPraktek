@@ -1,0 +1,38 @@
+C:\Users\USER\Desktop\KP\KP\KP\bin\Debug\KP.exe.config
+C:\Users\USER\Desktop\KP\KP\KP\bin\Debug\KP.exe
+C:\Users\USER\Desktop\KP\KP\KP\bin\Debug\KP.pdb
+C:\Users\USER\Desktop\KP\KP\KP\bin\Debug\MySql.Data.dll
+C:\Users\USER\Desktop\KP\KP\KP\bin\Debug\Google.Protobuf.dll
+C:\Users\USER\Desktop\KP\KP\KP\bin\Debug\MySql.Data.xml
+C:\Users\USER\Desktop\KP\KP\KP\obj\Debug\KP.csprojResolveAssemblyReference.cache
+C:\Users\USER\Desktop\KP\KP\KP\obj\Debug\KP.Form1.resources
+C:\Users\USER\Desktop\KP\KP\KP\obj\Debug\KP.Properties.Resources.resources
+C:\Users\USER\Desktop\KP\KP\KP\obj\Debug\KP.csproj.GenerateResource.Cache
+C:\Users\USER\Desktop\KP\KP\KP\obj\Debug\KP.exe
+C:\Users\USER\Desktop\KP\KP\KP\obj\Debug\KP.pdb
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\bin\Debug\KP.exe.config
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.exe
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.pdb
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.Login.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.MdiParent.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.Properties.Resources.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.csproj.GenerateResource.Cache
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\bin\Debug\KP.exe
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\bin\Debug\KP.pdb
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\bin\Debug\MySql.Data.dll
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\bin\Debug\Google.Protobuf.dll
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\bin\Debug\MySql.Data.xml
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.FormBarang.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.FormFindBarang.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.FormPenjualan.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.FormCustomer.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.FormFindCustomer.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.FormFindSupplier.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.FormSupplier.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.csprojAssemblyReference.cache
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.csproj.CoreCompileInputs.cache
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.csproj.CopyComplete
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.FormFindPenjualan.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.SalesInformation.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.FormPembelian.resources
+C:\Users\USER\Desktop\Semester 6\KP\KP\KP\obj\Debug\KP.PurchaseInformation.resources

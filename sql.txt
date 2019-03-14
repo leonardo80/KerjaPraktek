@@ -1,0 +1,7 @@
+select j.tanggal as Tanggal, j.kode as Kode, j.id_jual, c.nama_customer as Customer, dj.jumlah_barang as Jumlah, dj.diskon1 as Disc1, dj.diskon2 as Disc2, dj.totalharga as Total from jual j, djual dj, customer c where j.kode=dj.kode and j.id_jual=dj.id_jual and j.id_customer=c.id_customer and dj.nama_barang='Fox 185 gr' order by j.tanggal desc;
+
+
+select j.tanggal as Tanggal, j.kode as Kode, j.id_jual, c.nama_customer as Customer, dj.jumlah_barang as Jumlah, dj.diskon1 as Disc1, dj.diskon2 as Disc2, dj.totalharga as Total from jual j, djual dj, customer c where j.kode=dj.kode and j.id_jual=dj.id_jual and j.id_customer=c.id_customer and dj.nama_barang='Fox 185 gr'
+union all
+select b.tanggal as Tanggal,b.kode as Kode, b.id_beli, s.nama_supplier, db.jumlah_barang, db.diskon1,db.diskon2,db.totalharga from beli b,supplier s,dbeli db where b.kode=db.kode and b.id_beli=db.id_beli and b.id_supplier=s.id_supplier and db.nama_barang='Fox 185 gr'
+order by Tanggal desc, Kode desc;
