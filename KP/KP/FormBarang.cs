@@ -64,6 +64,7 @@ namespace KP
             tbNama.Text = FormFindBarang.listnama[FormFindBarang.index];
             tbKemasan.Text = FormFindBarang.listsatuan[FormFindBarang.index];
             tbHarga.Text = FormFindBarang.listharga[FormFindBarang.index];
+            //testing
         }
 
         private void btnNew_Click(object sender, EventArgs e)
@@ -73,6 +74,9 @@ namespace KP
             btnConfirm.Enabled = true;
             btnCancel.Enabled = true;
             btnNew.Enabled = false;
+            tbMasuk.Text = "";
+            tbKeluar.Text = "";
+            tbStok.Text = "";
             this.ActiveControl = tbId;
         }
 
@@ -110,7 +114,7 @@ namespace KP
                 cmd.ExecuteNonQuery();
 
                 //insert into stok table
-                cmd = new MySqlCommand("insert into stok values('"+tbNama.Text+"', '0', '0', '0'", Koneksi.conn);
+                cmd = new MySqlCommand("insert into stok values('"+tbNama.Text+"', 0,0,0)",Koneksi.conn);
                 cmd.ExecuteNonQuery();
 
                 disabletextbox();
@@ -221,16 +225,23 @@ namespace KP
 
         private void btnSales_Click(object sender, EventArgs e)
         {
-            namabarang = tbNama.Text;
-            SalesInformation s = new SalesInformation();
-            s.Show();
+            if (tbNama.Text!="")
+            {
+                namabarang = tbNama.Text;
+                SalesInformation s = new SalesInformation();
+                s.Show();
+            }            
         }
 
         private void btnPurchase_Click(object sender, EventArgs e)
         {
-            namabarang = tbNama.Text;
-            PurchaseInformation p = new PurchaseInformation();
-            p.Show();
+            if (tbNama.Text!="")
+            {
+                namabarang = tbNama.Text;
+                PurchaseInformation p = new PurchaseInformation();
+                p.Show();
+            }
+            
         }
 
         private void tbNama_TextChanged(object sender, EventArgs e)
