@@ -46,6 +46,7 @@
             this.stokToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kategoriToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,6 +70,7 @@
             // 
             this.masterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.produkToolStripMenuItem,
+            this.kategoriToolStripMenuItem,
             this.toolStripSeparator1,
             this.customerToolStripMenuItem,
             this.supplierToolStripMenuItem,
@@ -81,38 +83,38 @@
             // produkToolStripMenuItem
             // 
             this.produkToolStripMenuItem.Name = "produkToolStripMenuItem";
-            this.produkToolStripMenuItem.Size = new System.Drawing.Size(199, 36);
+            this.produkToolStripMenuItem.Size = new System.Drawing.Size(216, 36);
             this.produkToolStripMenuItem.Text = "Produk";
             this.produkToolStripMenuItem.Click += new System.EventHandler(this.produkToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(196, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
             // 
             // customerToolStripMenuItem
             // 
             this.customerToolStripMenuItem.Name = "customerToolStripMenuItem";
-            this.customerToolStripMenuItem.Size = new System.Drawing.Size(199, 36);
+            this.customerToolStripMenuItem.Size = new System.Drawing.Size(216, 36);
             this.customerToolStripMenuItem.Text = "Customer";
             this.customerToolStripMenuItem.Click += new System.EventHandler(this.customerToolStripMenuItem_Click);
             // 
             // supplierToolStripMenuItem
             // 
             this.supplierToolStripMenuItem.Name = "supplierToolStripMenuItem";
-            this.supplierToolStripMenuItem.Size = new System.Drawing.Size(199, 36);
+            this.supplierToolStripMenuItem.Size = new System.Drawing.Size(216, 36);
             this.supplierToolStripMenuItem.Text = "Supplier";
             this.supplierToolStripMenuItem.Click += new System.EventHandler(this.supplierToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(196, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(213, 6);
             // 
             // accountToolStripMenuItem
             // 
             this.accountToolStripMenuItem.Name = "accountToolStripMenuItem";
-            this.accountToolStripMenuItem.Size = new System.Drawing.Size(199, 36);
+            this.accountToolStripMenuItem.Size = new System.Drawing.Size(216, 36);
             this.accountToolStripMenuItem.Text = "Account";
             // 
             // transaksiToolStripMenuItem
@@ -184,6 +186,13 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // kategoriToolStripMenuItem
+            // 
+            this.kategoriToolStripMenuItem.Name = "kategoriToolStripMenuItem";
+            this.kategoriToolStripMenuItem.Size = new System.Drawing.Size(216, 36);
+            this.kategoriToolStripMenuItem.Text = "Kategori";
+            this.kategoriToolStripMenuItem.Click += new System.EventHandler(this.kategoriToolStripMenuItem_Click);
+            // 
             // MdiParent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -223,6 +232,7 @@
         private System.Windows.Forms.ToolStripMenuItem stokToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem kategoriToolStripMenuItem;
     }
 }
 

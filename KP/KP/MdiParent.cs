@@ -75,5 +75,11 @@ namespace KP
             FormPembelian p = new FormPembelian();
             p.Show();
         }
+
+        private void kategoriToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Kategori k = new Kategori();
+            k.Show();
+        }
     }
 }

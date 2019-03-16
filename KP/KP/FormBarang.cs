@@ -19,17 +19,52 @@ namespace KP
         public static DataSet ds;
         public static string sql;
         public static string namabarang = "";
-
+        public static bool newbarang = false, selected = false;
+        public static List<string> listkategori = new List<string>();
 
         public FormBarang()
         {
             InitializeComponent();
+        }
+        
+        public void cekstatus()
+        {
+            Koneksi.openConn();
+            sql = "select nama_barang from barang where id_barang='" + tbId.Text + "'";
+            cmd = new MySqlCommand(sql, Koneksi.conn);
+            try
+            {
+                string nama = cmd.ExecuteScalar().ToString();
+                lbStatus.Text = "Unavailable";
+                btnConfirm.Enabled = false;
+
+            }
+            catch (Exception)
+            {
+                lbStatus.Text = "Available";
+                btnConfirm.Enabled = true;
+            }
+            Koneksi.conn.Close();
         }
 
         public static void selecttextbox(TextBox t)
         {
             t.SelectionStart = 0;
             t.SelectionLength = t.Text.Length;
+        }
+
+        public void loadkategori()
+        {
+            Koneksi.openConn();
+            cmd = new MySqlCommand("select nama_kategori from kategori",Koneksi.conn);
+            MySqlDataReader dr;
+            dr = cmd.ExecuteReader();
+            while(dr.Read())
+            {
+                listkategori.Add(dr.GetString(0));
+            }
+            cbKategori.DataSource = listkategori;
+            Koneksi.conn.Close();
         }
 
         public void refreshlist()
@@ -43,6 +78,8 @@ namespace KP
             tbNama.Enabled = true;
             tbKemasan.Enabled = true;
             tbHarga.Enabled = true;
+            cbKategori.Enabled = true;
+            tbDeskripsi.Enabled = true;
         }
 
         public void disabletextbox()
@@ -51,11 +88,15 @@ namespace KP
             tbNama.Enabled = false;
             tbKemasan.Enabled = false;
             tbHarga.Enabled = false;
+            cbKategori.Text = "";
+            cbKategori.Enabled = false;
+            tbDeskripsi.Enabled = false;
         }
 
         public void kosongitextbox()
         {
             tbId.Text = "";tbNama.Text = "";tbKemasan.Text = "";tbHarga.Text = "";
+            tbDeskripsi.Text = "";cbKategori.Text = "";
         }
 
         private void isidatabarang()
@@ -64,19 +105,27 @@ namespace KP
             tbNama.Text = FormFindBarang.listnama[FormFindBarang.index];
             tbKemasan.Text = FormFindBarang.listsatuan[FormFindBarang.index];
             tbHarga.Text = FormFindBarang.listharga[FormFindBarang.index];
-            //testing
         }
 
         private void btnNew_Click(object sender, EventArgs e)
         {
+            if (Koneksi.conn!=null && Koneksi.conn.State==ConnectionState.Open)
+            {
+                Koneksi.conn.Close();
+            }
+            lbStatus.Text = "Available";
             enabletextbox();
             kosongitextbox();
+            loadkategori();
             btnConfirm.Enabled = true;
             btnCancel.Enabled = true;
             btnNew.Enabled = false;
+            btnDelete.Enabled = false;
+
             tbMasuk.Text = "";
             tbKeluar.Text = "";
             tbStok.Text = "";
+            newbarang = true;
             this.ActiveControl = tbId;
         }
 
@@ -89,8 +138,10 @@ namespace KP
             }
             else
             {
-                disabletextbox(); btnCancel.Enabled = false; btnConfirm.Enabled = false;
+                btnCancel.Enabled = false; btnConfirm.Enabled = false;
+                btnNew.Enabled = true;disabletextbox();
             }
+            newbarang = false;
         }
 
         private void btnConfirm_Click(object sender, EventArgs e)
@@ -98,7 +149,15 @@ namespace KP
             if (tbId.Enabled==false)
             {
                 Koneksi.openConn();
-                cmd = new MySqlCommand("update barang set nama_barang ='"+tbNama.Text+"', satuan_barang='"+tbKemasan.Text+"', harga_barang='"+tbHarga.Text+"' where id_barang='"+tbId.Text+"' ", Koneksi.conn);
+                string[] temp = tbHarga.Text.Split('.');
+                string gabungan = "";
+                foreach (string a in temp)
+                {
+                    gabungan += a;
+                }
+                cmd = new MySqlCommand("select id_kategori from kategori where nama_kategori='" + cbKategori.Text + "'", Koneksi.conn);
+                string idkategori = cmd.ExecuteScalar().ToString();
+                cmd = new MySqlCommand("update barang set nama_barang ='"+tbNama.Text+"', satuan_barang='"+tbKemasan.Text+"', harga_barang='"+gabungan+"', id_kategori='"+idkategori+"', deskripsi='"+tbDeskripsi.Text+"' where id_barang='"+tbId.Text+"' ", Koneksi.conn);
                 cmd.ExecuteNonQuery();
                 btnCancel.Enabled = false;
                 btnConfirm.Enabled = false;
@@ -110,17 +169,26 @@ namespace KP
                 Koneksi.openConn();
 
                 //insert barang into table barang
-                cmd = new MySqlCommand("insert into barang values('" + tbId.Text + "','" + tbNama.Text + "','" + tbKemasan.Text + "','" + tbHarga.Text + "')", Koneksi.conn);
+                string[] temp = tbHarga.Text.Split('.');
+                string gabungan = "";
+                foreach (string a in temp)
+                {
+                    gabungan += a;
+                }
+                cmd = new MySqlCommand("select id_kategori from kategori where nama_kategori='" + cbKategori.Text + "'", Koneksi.conn);
+                string idkategori = cmd.ExecuteScalar().ToString();
+                cmd = new MySqlCommand("insert into barang values('" + tbId.Text + "','" + tbNama.Text + "','" + tbKemasan.Text + "','" + gabungan + "','"+idkategori+"','"+tbDeskripsi.Text+"','Aktif')", Koneksi.conn);
                 cmd.ExecuteNonQuery();
 
                 //insert into stok table
-                cmd = new MySqlCommand("insert into stok values('"+tbNama.Text+"', 0,0,0)",Koneksi.conn);
+                cmd = new MySqlCommand("insert into stok values('"+tbId.Text+"', 0,0,0)",Koneksi.conn);
                 cmd.ExecuteNonQuery();
 
                 disabletextbox();
                 btnCancel.Enabled = false; btnConfirm.Enabled = false;
                 btnNew.Enabled = true;
                 kosongitextbox();
+                newbarang = false;
                 this.ActiveControl = btnNew;
                 Koneksi.conn.Close();
             }
@@ -138,21 +206,60 @@ namespace KP
         
         private void tbId_TextChanged(object sender, EventArgs e)
         {
-            Koneksi.openConn();
-            sql = "select nama_barang from barang where id_barang='" + tbId.Text + "'";
-            cmd = new MySqlCommand(sql, Koneksi.conn);
-            try
+            cekstatus();
+            if (FormFindBarang.index != -1 && newbarang == false)
             {
-                string nama = cmd.ExecuteScalar().ToString();
-                lbStatus.Text = "Unavailable";
-                btnConfirm.Enabled = false;
+                try
+                {
+                    Koneksi.openConn();
+                    cmd = new MySqlCommand("select * from barang where id_barang='" + tbId.Text + "' ", Koneksi.conn);
+                    MySqlDataReader dr;
+                    dr = cmd.ExecuteReader();
+                    string kategori = "";
+                    while (dr.Read())
+                    {
+                        tbNama.Text = dr.GetString(1);
+                        tbKemasan.Text = dr.GetString(2);
+                        tbHarga.Text = dr.GetString(3);
+                        kategori = dr.GetString(4);
+                        tbDeskripsi.Text = dr.GetString(5);
+                    }
+                    cmd = new MySqlCommand("select nama_kategori from kategori where id_kategori='" + kategori + "'", Koneksi.conn);
+                    cbKategori.Text = cmd.ExecuteScalar().ToString();
+                    cmd = new MySqlCommand("select * from stok where id_barang='" + tbId.Text + "'", Koneksi.conn);
+                    MySqlDataReader drr;
+                    drr = cmd.ExecuteReader();
+                    while (drr.Read())
+                    {
+                        tbMasuk.Text = drr.GetString(1);
+                        tbKeluar.Text = drr.GetString(2);
+                        tbStok.Text = drr.GetString(3);
+                    }
+                    Koneksi.conn.Close();
+                }
+                catch (Exception x)
+                {
+                }                
             }
-            catch (Exception)
+            else
             {
-                lbStatus.Text = "Available";
-                btnConfirm.Enabled = true;
-            }
-            Koneksi.conn.Close();
+                Koneksi.openConn();
+                sql = "select nama_barang from barang where id_barang='" + tbId.Text + "'";
+                cmd = new MySqlCommand(sql, Koneksi.conn);
+                try
+                {
+                    string nama = cmd.ExecuteScalar().ToString();
+                    lbStatus.Text = "Unavailable";
+                    btnConfirm.Enabled = false;
+
+                }
+                catch (Exception)
+                {
+                    lbStatus.Text = "Available";
+                    btnConfirm.Enabled = true;
+                }
+                Koneksi.conn.Close();
+            }            
         }
 
         private void btnFind_Click(object sender, EventArgs e)
@@ -172,8 +279,11 @@ namespace KP
             this.ActiveControl = btnNew;
             if (FormFindBarang.index != -1)
             {
-                isidatabarang();
-                btnPrev.Enabled = true; btnNext.Enabled = true; btnEdit.Enabled = true;
+                tbId.Text = FormFindBarang.listid[FormFindBarang.index];
+                btnPrev.Enabled = true;
+                btnNext.Enabled = true;
+                btnEdit.Enabled = true;
+                btnDelete.Enabled = true;
             }
         }
 
@@ -191,8 +301,8 @@ namespace KP
             else
             {
                 FormFindBarang.index++;
-            }            
-            isidatabarang();
+            }
+            tbId.Text = FormFindBarang.listid[FormFindBarang.index];
         }
 
         private void btnPrev_Click(object sender, EventArgs e)
@@ -205,7 +315,7 @@ namespace KP
             {
                 FormFindBarang.index--;
             }
-            isidatabarang();
+            tbId.Text = FormFindBarang.listid[FormFindBarang.index];
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -215,6 +325,8 @@ namespace KP
             tbId.Enabled = false;
             btnConfirm.Enabled = true;
             btnCancel.Enabled = true;
+            btnNew.Enabled = false;
+            btnDelete.Enabled = false;
         }
 
         private void tbNama_Enter(object sender, EventArgs e)
@@ -261,6 +373,59 @@ namespace KP
             }
             catch (Exception x)
             {}
+        }
+
+        private void FormBarang_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FormFindBarang.index = -1;
+            FormFindBarang.listid.Clear();
+        }
+
+        private void tbHarga_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (tbHarga.Text != "")
+                {
+                    tbHarga.Text = Function.separator(tbHarga.Text);
+                    tbHarga.SelectionStart = tbHarga.TextLength;
+                    tbHarga.SelectionLength = 0;
+                }
+            }
+            catch (Exception x)
+            {}
+        }
+
+        private void cbKategori_Enter(object sender, EventArgs e)
+        {
+            cbKategori.DroppedDown = true;
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            Koneksi.openConn();
+            cmd = new MySqlCommand("update barang set status='Tidak Aktif' where id_barang='"+tbId.Text+"'",Koneksi.conn);
+            cmd.ExecuteNonQuery();
+            Koneksi.conn.Close();
+            int ind = FormFindBarang.index;
+            FormFindBarang.listid.Clear();
+            FormFindBarang.loadlistbarang();
+            MessageBox.Show("Berhasil Menghapus Data");
+            tbId.Text = FormFindBarang.listid[ind];
+            FormFindBarang.index = ind;
+        }
+
+        private void cbKategori_TextChanged(object sender, EventArgs e)
+        {
+            int index = cbKategori.FindString(cbKategori.Text);
+            cbKategori.SelectedIndex = index;
+            if (FormFindBarang.index==-1)
+            {
+                cbKategori.SelectionStart = 0;
+                cbKategori.SelectionLength = cbKategori.Text.Length;
+
+            }
+
         }
     }
 }

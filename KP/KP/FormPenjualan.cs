@@ -48,7 +48,7 @@ namespace KP
             dataGridView1.Columns[6].Name = "Total";
 
             DataGridViewColumn col;
-            col = dataGridView1.Columns[0];col.Width = 280;
+            col = dataGridView1.Columns[0]; col.Width = 280;
             col = dataGridView1.Columns[1]; col.Width = 70;
             col = dataGridView1.Columns[2]; col.Width = 60;
             col = dataGridView1.Columns[3]; col.Width = 90;
@@ -587,8 +587,6 @@ namespace KP
 
             //general
             this.ActiveControl = btnNew;
-           
-            
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

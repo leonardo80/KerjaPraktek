@@ -50,13 +50,20 @@ namespace KP
 
         private void FormFindBarang_Load(object sender, EventArgs e)
         {
+            Koneksi.openConn();
             comboBox1.SelectedIndex = 0;
+            da = new MySqlDataAdapter("select id_barang as \"ID Barang\", nama_barang as \"Nama Barang\", satuan_barang as Satuan, harga_barang as Harga, id_kategori as \"ID Kategori\", deskripsi as Deskripsi, status as Status from barang where status='Aktif' order by id_barang", Koneksi.conn);
+            ds = new DataSet();
+            da.Fill(ds);
+            dataGridView1.DataSource = ds.Tables[0];
+            Koneksi.conn.Close();
+            loadlistbarang();
             this.ActiveControl = comboBox1;
         }
 
         public static void loadlistbarang()
         {
-            string stm = "select * from barang";
+            string stm = "select id_barang as \"ID Barang\", nama_barang as \"Nama Barang\", satuan_barang as Satuan, harga_barang as Harga, id_kategori as \"ID Kategori\", deskripsi as Deskripsi, status as Status from barang where status='Aktif' order by id_barang";
             Koneksi.openConn();
             MySqlCommand cmd = new MySqlCommand(stm, Koneksi.conn);
             dr = cmd.ExecuteReader();
@@ -64,9 +71,6 @@ namespace KP
             while (dr.Read())
             {
                 listid.Add(dr.GetString(0));
-                listnama.Add(dr.GetString(1));
-                listsatuan.Add(dr.GetString(2));
-                listharga.Add(dr.GetString(3));
             }
             Koneksi.conn.Close();
         }
@@ -82,15 +86,14 @@ namespace KP
             loadlistbarang();
             if (comboBox1.Text=="ID")
             {
-                da = new MySqlDataAdapter("select * from barang where id_barang like '%" + search + "%' ", Koneksi.conn);
+                da = new MySqlDataAdapter("select id_barang as \"ID Barang\", nama_barang as \"Nama Barang\", satuan_barang as Satuan, harga_barang as Harga, id_kategori as \"ID Kategori\", deskripsi as Deskripsi, status as Status from barang where id_barang like '%" + search + "%' and status='Aktif'", Koneksi.conn);
                 ds = new DataSet();
                 da.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
-
             }
-            if (comboBox1.Text=="NAMA")
+            else if (comboBox1.Text=="NAMA")
             {
-                da = new MySqlDataAdapter("select * from barang where nama_barang like '%" + search + "%' ", Koneksi.conn);
+                da = new MySqlDataAdapter("select id_barang as \"ID Barang\", nama_barang as \"Nama Barang\", satuan_barang as Satuan, harga_barang as Harga, id_kategori as \"ID Kategori\", deskripsi as Deskripsi, status as Status from barang where nama_barang like '%" + search + "%' and status='Aktif' ", Koneksi.conn);
                 ds = new DataSet();
                 da.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];

@@ -43,6 +43,7 @@
             this.tbTanggal = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
@@ -69,7 +70,6 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label10 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -247,6 +247,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Penjualan";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(740, 17);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(56, 25);
+            this.label10.TabIndex = 44;
+            this.label10.Text = "Total";
+            // 
             // btnCancel
             // 
             this.btnCancel.Enabled = false;
@@ -257,6 +267,7 @@
             this.btnCancel.TabIndex = 43;
             this.btnCancel.Text = "CANCEL";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnSave
             // 
@@ -348,6 +359,7 @@
             this.tbAdd.TabIndex = 17;
             this.tbAdd.Text = "ADD";
             this.tbAdd.UseVisualStyleBackColor = true;
+            this.tbAdd.Click += new System.EventHandler(this.tbAdd_Click);
             // 
             // cbBarang
             // 
@@ -392,6 +404,7 @@
             this.tbTotalBarang.TabIndex = 16;
             this.tbTotalBarang.Text = "0";
             this.tbTotalBarang.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTotalBarang.TextChanged += new System.EventHandler(this.tbTotalBarang_TextChanged);
             this.tbTotalBarang.Enter += new System.EventHandler(this.tbKodeSupp_Enter);
             // 
             // tbJumlah
@@ -404,6 +417,7 @@
             this.tbJumlah.TabIndex = 12;
             this.tbJumlah.Text = "0";
             this.tbJumlah.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tbJumlah.TextChanged += new System.EventHandler(this.tbJumlah_TextChanged);
             this.tbJumlah.Enter += new System.EventHandler(this.tbKodeSupp_Enter);
             // 
             // tbKodeBarang
@@ -465,6 +479,7 @@
             this.btnExit.TabIndex = 6;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // btnNew
             // 
@@ -528,16 +543,8 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(844, 230);
             this.dataGridView1.TabIndex = 23;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(740, 17);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(56, 25);
-            this.label10.TabIndex = 44;
-            this.label10.Text = "Total";
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
             // FormPembelian
             // 
