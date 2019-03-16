@@ -20,6 +20,7 @@ namespace KP
         public static DataSet ds;
         public static string sql;
 
+        public static string tempnamabarang = "";
         public static List<string> listnamasupplier = new List<string>();
         public static List<string> listidsupplier = new List<string>();
         public static List<string> listalamatsupplier = new List<string>();
@@ -30,6 +31,39 @@ namespace KP
         public FormPembelian()
         {
             InitializeComponent();
+        }
+
+        public void hitungtotaltransaksi()
+        {
+            int temp = 0;
+            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+            {
+                string[] total = dataGridView1.Rows[i].Cells[3].Value.ToString().Split('.');
+                string gabungan = "";
+                foreach (string a in total)
+                {
+                    gabungan = gabungan + a;
+                }
+                temp = temp + Convert.ToInt32(gabungan);
+            }
+            tbTotal.Text = temp.ToString();
+            tbTotal.Text = Function.separator(tbTotal.Text);
+        }
+
+        public void settingdatagrid()
+        {
+            dataGridView1.ColumnCount = 4;
+            dataGridView1.ColumnHeadersVisible = true;
+            dataGridView1.Columns[0].Name = "Nama Barang";
+            dataGridView1.Columns[1].Name = "Jumlah";
+            dataGridView1.Columns[2].Name = "Kemasan";
+            dataGridView1.Columns[3].Name = "Total";
+            
+            DataGridViewColumn col;
+            col = dataGridView1.Columns[0]; col.Width = 260;
+            col = dataGridView1.Columns[1]; col.Width = 90;
+            col = dataGridView1.Columns[2]; col.Width = 90;
+            col = dataGridView1.Columns[3]; col.Width = 150;
         }
 
         public void loaddatasupplier()
@@ -108,9 +142,8 @@ namespace KP
             string tanggalfull = tanggal + "-" + bulan + "-" + thn;
             tbTanggal.Text = tanggalfull;
             tbKodeBeli.Text = "B";
-            this.ActiveControl = cbBarang;
             dataGridView1.DataSource = null; dataGridView1.Refresh();
-            generatekodebeli();
+            generatekodebeli();settingdatagrid();
         }
 
         private void cbSupplier_Enter(object sender, EventArgs e)
@@ -215,6 +248,92 @@ namespace KP
             //{
             //    cbBarang.DroppedDown = true;
             //}
+        }
+
+        private void tbAdd_Click(object sender, EventArgs e)
+        {
+            if (tbKodeBarang.Text != "" && tbJumlah.Text != "0")
+            {
+                dataGridView1.Rows.Add(cbBarang.Text, tbJumlah.Text, tbSatuan.Text,tbTotalBarang.Text);                
+                this.ActiveControl = tbKodeBarang;
+                hitungtotaltransaksi();
+            }
+            else
+            {
+                MessageBox.Show("Kode Barang / Jumlah Tidak Boleh Kosong");
+            }
+        }
+
+        private void tbJumlah_TextChanged(object sender, EventArgs e)
+        {
+            if (tbJumlah.Text != "")
+            {
+                tbJumlah.Text = Function.separator(tbJumlah.Text);
+                tbJumlah.SelectionStart = tbJumlah.TextLength;
+                tbJumlah.SelectionLength = 0;
+            }
+        }
+
+        private void tbTotalBarang_TextChanged(object sender, EventArgs e)
+        {
+            if (tbTotalBarang.Text != "")
+            {
+                tbTotalBarang.Text = Function.separator(tbTotalBarang.Text);
+                tbTotalBarang.SelectionStart = tbTotalBarang.TextLength;
+                tbTotalBarang.SelectionLength = 0;
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            cbBarang.Text = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+            tbJumlah.Text = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+            tbSatuan.Text = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+            tbTotalBarang.Text = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
+            btnUpdate.Enabled = true; tempnamabarang = cbBarang.Text;
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = -1;
+            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+            {
+                if (dataGridView1.Rows[i].Cells[0].Value.ToString() == tempnamabarang)
+                {
+                    index = i;
+                }
+            }
+            dataGridView1.Rows.RemoveAt(index);
+            dataGridView1.Refresh();
+            hitungtotaltransaksi();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            // barang
+            cbBarang.DataSource = null; tbKodeBarang.Enabled = false;
+            cbBarang.Enabled = false; tbJumlah.Enabled = false;tbTotalBarang.Enabled = false;
+            tbJumlah.Text = "0";tbTotal.Text = "0";
+            tbKodeBarang.Text = "";tbTotalBarang.Text = "0";
+            //kop nota
+            tbKodeBeli.Enabled = false; tbKodeSupp.Enabled = false; cbSupplier.Enabled = false;
+            tbAlamat.Text = ""; tbKota.Text = ""; tbKodeSupp.Text = ""; tbKodeBeli.Text = "";
+            cbSupplier.DataSource = null;
+            tbTanggal.Text = ""; tbKodeBeli1.Text = ""; tbKodeBeli2.Text = "";
+            //datagrid
+            dataGridView1.Rows.Clear(); dataGridView1.Refresh(); tbTotalBarang.Text = "0";
+            dataGridView1.DataSource = null;
+
+            //button
+            btnCancel.Enabled = false; btnUpdate.Enabled = false;
+
+            //general
+            this.ActiveControl = btnNew;
         }
     }
 }
