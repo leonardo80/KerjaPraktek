@@ -32,8 +32,8 @@ namespace KP
 
         public void loadnota()
         {
-            cmd = new MySqlCommand("select * from beli order by id_beli desc", Koneksi.conn);
             Koneksi.openConn();
+            cmd = new MySqlCommand("select * from beli order by id_beli desc", Koneksi.conn);
             dr = cmd.ExecuteReader();
             while (dr.Read())
             {
@@ -46,12 +46,16 @@ namespace KP
         private void FormFindPembelian_Load(object sender, EventArgs e)
         {
             comboBox1.SelectedIndex = 0;
-            string stm = "select id_beli as \"Nomer Nota\", id_supplier as Supplier, tanggal as Tanggal, totalbeli as Total from beli order by id_beli desc";
+            string stm = "select id_beli as \"Nomer Nota\", id_supplier as Supplier, tanggal as Tanggal, format(totalbeli,0,'de_DE') as Total from beli order by id_beli desc";
             Koneksi.openConn();
             da = new MySqlDataAdapter(stm, Koneksi.conn);
             ds = new DataSet();
             da.Fill(ds);
+            Koneksi.conn.Close();
             dataGridView1.DataSource = ds.Tables[0];
+            DataGridViewColumn col = dataGridView1.Columns[3];
+            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            col.Width = 95;
             loadnota();
         }
 
@@ -60,7 +64,7 @@ namespace KP
             string search = textBox1.Text;
             if (comboBox1.Text == "KODE")
             {
-                da = new MySqlDataAdapter("select id_beli as \"Nomer Nota\", id_supplier as Supplier, tanggal as Tanggal, totalbeli as Total from beli where id_beli like '%"+search+"%' order by id_beli desc", Koneksi.conn);
+                da = new MySqlDataAdapter("select id_beli as \"Nomer Nota\", id_supplier as Supplier, tanggal as Tanggal, format(totalbeli,0,'de_DE') as Total from beli where id_beli like '%" + search+"%' order by id_beli desc", Koneksi.conn);
                 ds = new DataSet();
                 da.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
@@ -68,19 +72,22 @@ namespace KP
             }
             if (comboBox1.Text == "SUPPLIER")
             {
-                da = new MySqlDataAdapter("select id_beli as \"Nomer Nota\", id_supplier as Supplier, tanggal as Tanggal, totalbeli as Total from beli where id_supplier like '%" + search + "%' order by id_beli desc", Koneksi.conn);
+                da = new MySqlDataAdapter("select id_beli as \"Nomer Nota\", id_supplier as Supplier, tanggal as Tanggal, format(totalbeli,0,'de_DE') as Total from beli where id_supplier like '%" + search + "%' order by id_beli desc", Koneksi.conn);
                 ds = new DataSet();
                 da.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
             }
             if (comboBox1.Text == "TANGGAL")
             {
-                da = new MySqlDataAdapter("select id_beli as \"Nomer Nota\", id_supplier as Supplier, tanggal as Tanggal, totalbeli as Total from beli where tanggal like '%" + search + "%' order by id_beli desc", Koneksi.conn);
+                da = new MySqlDataAdapter("select id_beli as \"Nomer Nota\", id_supplier as Supplier, tanggal as Tanggal, format(totalbeli,0,'de_DE') as Total from beli where tanggal like '%" + search + "%' order by id_beli desc", Koneksi.conn);
                 ds = new DataSet();
                 da.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
             }
             loadnota();
+            DataGridViewColumn col = dataGridView1.Columns[3];
+            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            col.Width = 95;
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

@@ -43,6 +43,8 @@
             this.tbKota = new System.Windows.Forms.TextBox();
             this.cbCustomer = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lbStok = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
@@ -75,9 +77,16 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.lbVoid = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.lbPrinted = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.barang1 = new KP.Dataset.Barang();
+            this.cbSupp = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barang1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -96,9 +105,11 @@
             this.tbTanggal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbTanggal.Location = new System.Drawing.Point(277, 33);
             this.tbTanggal.Name = "tbTanggal";
-            this.tbTanggal.Size = new System.Drawing.Size(100, 28);
+            this.tbTanggal.Size = new System.Drawing.Size(114, 28);
             this.tbTanggal.TabIndex = 1;
             this.tbTanggal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTanggal.Enter += new System.EventHandler(this.tbKodeJual_Enter);
+            this.tbTanggal.Leave += new System.EventHandler(this.tbTanggal_Leave);
             // 
             // tbKodeCust
             // 
@@ -230,6 +241,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lbStok);
+            this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.btnCancel);
             this.groupBox1.Controls.Add(this.btnSave);
             this.groupBox1.Controls.Add(this.btnUpdate);
@@ -260,6 +273,26 @@
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Penjualan";
+            // 
+            // lbStok
+            // 
+            this.lbStok.AutoSize = true;
+            this.lbStok.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbStok.Location = new System.Drawing.Point(97, 78);
+            this.lbStok.Name = "lbStok";
+            this.lbStok.Size = new System.Drawing.Size(23, 25);
+            this.lbStok.TabIndex = 45;
+            this.lbStok.Text = "0";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(28, 78);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(63, 25);
+            this.label16.TabIndex = 44;
+            this.label16.Text = "Stok :";
             // 
             // btnCancel
             // 
@@ -388,6 +421,7 @@
             // 
             // tbAdd
             // 
+            this.tbAdd.Enabled = false;
             this.tbAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbAdd.Location = new System.Drawing.Point(852, 81);
             this.tbAdd.Name = "tbAdd";
@@ -572,7 +606,6 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.Enabled = false;
             this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPrint.Location = new System.Drawing.Point(370, 12);
             this.btnPrint.Name = "btnPrint";
@@ -580,6 +613,7 @@
             this.btnPrint.TabIndex = 5;
             this.btnPrint.Text = "Print";
             this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
             // btnEdit
             // 
@@ -594,7 +628,6 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Enabled = false;
             this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.Location = new System.Drawing.Point(240, 12);
             this.btnDelete.Name = "btnDelete";
@@ -602,6 +635,7 @@
             this.btnDelete.TabIndex = 3;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnFind
             // 
@@ -628,11 +662,77 @@
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
+            // lbVoid
+            // 
+            this.lbVoid.AutoSize = true;
+            this.lbVoid.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbVoid.Location = new System.Drawing.Point(776, 72);
+            this.lbVoid.Name = "lbVoid";
+            this.lbVoid.Size = new System.Drawing.Size(79, 25);
+            this.lbVoid.TabIndex = 25;
+            this.lbVoid.Text = "Deleted";
+            this.lbVoid.Visible = false;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(776, 34);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(84, 25);
+            this.label15.TabIndex = 26;
+            this.label15.Text = "Printed :";
+            // 
+            // lbPrinted
+            // 
+            this.lbPrinted.AutoSize = true;
+            this.lbPrinted.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPrinted.Location = new System.Drawing.Point(866, 36);
+            this.lbPrinted.Name = "lbPrinted";
+            this.lbPrinted.Size = new System.Drawing.Size(23, 25);
+            this.lbPrinted.TabIndex = 27;
+            this.lbPrinted.Text = "0";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Location = new System.Drawing.Point(781, 103);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(112, 29);
+            this.checkBox1.TabIndex = 10;
+            this.checkBox1.Text = "Dropship";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // barang1
+            // 
+            this.barang1.DataSetName = "Barang";
+            this.barang1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // cbSupp
+            // 
+            this.cbSupp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbSupp.FormattingEnabled = true;
+            this.cbSupp.Items.AddRange(new object[] {
+            "Tirta",
+            "SUT"});
+            this.cbSupp.Location = new System.Drawing.Point(899, 103);
+            this.cbSupp.Name = "cbSupp";
+            this.cbSupp.Size = new System.Drawing.Size(128, 28);
+            this.cbSupp.TabIndex = 28;
+            this.cbSupp.Visible = false;
+            // 
             // FormPenjualan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1039, 632);
+            this.Controls.Add(this.cbSupp);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.lbPrinted);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.lbVoid);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cbCustomer);
             this.Controls.Add(this.tbKota);
@@ -656,6 +756,7 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barang1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -698,7 +799,6 @@
         private System.Windows.Forms.TextBox tbTotal;
         private System.Windows.Forms.ComboBox cbBarang;
         private System.Windows.Forms.Button tbAdd;
-        private System.Windows.Forms.TextBox tbJumlahDatagrid;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
@@ -709,6 +809,15 @@
         private System.Windows.Forms.TextBox tbSatuan;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label lbVoid;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label lbPrinted;
+        private System.Windows.Forms.Label lbStok;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox tbJumlahDatagrid;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private Dataset.Barang barang1;
+        private System.Windows.Forms.ComboBox cbSupp;
     }
 }

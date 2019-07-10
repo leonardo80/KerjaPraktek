@@ -41,7 +41,6 @@ namespace KP
                 {
                     dataGridView1.Rows[i].Cells[4].Value = Function.separator(dataGridView1.Rows[i].Cells[4].Value.ToString());
                 }
-
             }
             catch (Exception x)
             { MessageBox.Show(x.Message);}
@@ -52,13 +51,7 @@ namespace KP
             int temp = 0;
             for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
-                string[] total = dataGridView1.Rows[i].Cells[4].Value.ToString().Split('.');
-                string gabungan = "";
-                foreach (string a in total)
-                {
-                    gabungan = gabungan + a;
-                }
-                temp = temp + Convert.ToInt32(gabungan);
+                temp+=Convert.ToInt32(dataGridView1.Rows[i].Cells[4].Value.ToString().Replace(".",""));
             }
             tbTotal.Text = temp.ToString();
             tbTotal.Text = Function.separator(tbTotal.Text);
@@ -66,12 +59,14 @@ namespace KP
 
         public void settingdatagrid()
         {
+            dataGridView1.DataSource = null;
+            dataGridView1.Rows.Clear();
             dataGridView1.ColumnCount = 5;
             dataGridView1.ColumnHeadersVisible = true;
             dataGridView1.Columns[0].Name = "Nama Barang";
             dataGridView1.Columns[1].Name = "Jumlah";
-            dataGridView1.Columns[2].Name = "Harga";
-            dataGridView1.Columns[3].Name = "Kemasan";
+            dataGridView1.Columns[2].Name = "Kemasan";
+            dataGridView1.Columns[3].Name = "Harga";
             dataGridView1.Columns[4].Name = "Total";
             
             DataGridViewColumn col;
@@ -105,16 +100,13 @@ namespace KP
                 da = new MySqlDataAdapter("select nama_barang as \"Nama Barang\", jumlah_barang as \"Jumlah\",kemasan as Kemasan, hargasatuan as \"Harga\",totalharga as Total from dbeli where id_beli='" + temp + "' ", Koneksi.conn);
                 ds = new DataSet();
                 da.Fill(ds);
-                //dataGridView1.Rows.Clear();
-                dataGridView1.Refresh();
-                dataGridView1.DataSource = ds.Tables[0];
 
-                DataGridViewColumn col;
-                col = dataGridView1.Columns[0]; col.Width = 250;
-                col = dataGridView1.Columns[1]; col.Width = 70;
-                col = dataGridView1.Columns[2]; col.Width = 80;
-                col = dataGridView1.Columns[3]; col.Width = 70;
-                col = dataGridView1.Columns[4]; col.Width = 130;
+                settingdatagrid();
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    dataGridView1.Rows.Add(ds.Tables[0].Rows[i][0].ToString(), Function.separator(ds.Tables[0].Rows[i][1].ToString()), ds.Tables[0].Rows[i][2].ToString(), Function.separator(ds.Tables[0].Rows[i][3].ToString()),  Function.separator(ds.Tables[0].Rows[i][4].ToString()));
+                }
+                
                 Koneksi.conn.Close();
             }
             catch (Exception x)
@@ -141,6 +133,7 @@ namespace KP
         public void loaddatasupplier()
         {
             Koneksi.openConn();
+            listnamasupplier.Clear();
             cmd = new MySqlCommand("select * from supplier", Koneksi.conn);
             dr = cmd.ExecuteReader();
             while(dr.Read())
@@ -180,7 +173,9 @@ namespace KP
             }
             Koneksi.conn.Close();
             cbBarang.Text = "";
-            cbBarang.DataSource = listnamabarang;
+            cbBarang.Items.AddRange(listnamabarang.ToArray<string>());
+            cbBarang.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cbBarang.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
         }
 
         public void activate()
@@ -191,7 +186,9 @@ namespace KP
             tbKodeBarang.Enabled = true;
             cbBarang.Enabled = true;
             tbJumlah.Enabled = true;
+            tbTanggal.Enabled = true;
             tbTotalBarang.Enabled = true;
+            tbJatuhTempo.Enabled = true;
         }
 
         private void FormPembelian_Load(object sender, EventArgs e)
@@ -212,7 +209,7 @@ namespace KP
         private void btnNew_Click(object sender, EventArgs e)
         {
             activate(); loadbarang();loaddatasupplier();
-            this.ActiveControl = cbSupplier;
+            this.ActiveControl = tbTanggal;
             btnCancel.Enabled = true;
             DateTime date = DateTime.Now;
             string tanggal = date.Day.ToString();
@@ -223,9 +220,11 @@ namespace KP
             string thn = tahun.Substring(2, 2);
             string tanggalfull = tanggal + "-" + bulan + "-" + thn;
             tbTanggal.Text = tanggalfull;
+            tbTanggal.SelectAll();
             tbKodeBeli.Text = "B";
             tbKodeBeli.Enabled = false;
-            dataGridView1.DataSource = null; dataGridView1.Refresh();
+            dataGridView1.DataSource = null;dataGridView1.Rows.Clear();
+            dataGridView1.Refresh();
             generatekodebeli();settingdatagrid();
         }
 
@@ -280,7 +279,7 @@ namespace KP
 
         private void cbBarang_Enter(object sender, EventArgs e)
         {
-            cbBarang.DroppedDown = true;
+            //cbBarang.DroppedDown = true;
         }
 
         private void cbBarang_TextChanged(object sender, EventArgs e)
@@ -300,10 +299,6 @@ namespace KP
                 string satuan = cmd.ExecuteScalar().ToString();
                 tbSatuan.Text = satuan;
 
-                Koneksi.conn.Close();
-                Koneksi.openConn();
-                cmd = new MySqlCommand("select nama_barang from barang where nama_barang like '" + cbBarang.Text + "%' and status='Aktif'", Koneksi.conn);
-                cbBarang.Text = cmd.ExecuteScalar().ToString();
                 Koneksi.conn.Close();
                 Koneksi.openConn();
                 cmd = new MySqlCommand("select hpp from hpp where id_barang='" + tbKodeBarang.Text + "'", Koneksi.conn);
@@ -348,7 +343,7 @@ namespace KP
         {
             if (tbKodeBarang.Text != "" && tbJumlah.Text != "0")
             {
-                dataGridView1.Rows.Add(cbBarang.Text, tbJumlah.Text, tbHarga.Text, tbSatuan.Text,tbTotalBarang.Text);                
+                dataGridView1.Rows.Add(cbBarang.Text, tbJumlah.Text, tbSatuan.Text,tbHarga.Text,tbTotalBarang.Text);                
                 this.ActiveControl = tbKodeBarang;
                 hitungtotaltransaksi();
             }
@@ -418,8 +413,9 @@ namespace KP
             //kop nota
             tbKodeBeli.Enabled = false; tbKodeSupp.Enabled = false; cbSupplier.Enabled = false;
             tbAlamat.Text = ""; tbKota.Text = ""; tbKodeSupp.Text = ""; tbKodeBeli.Text = "";
+            tbJatuhTempo.Enabled = false;tbJatuhTempo.Text = "42";
             cbSupplier.DataSource = null;
-            tbTanggal.Text = ""; tbKodeBeli1.Text = ""; tbKodeBeli2.Text = "";
+            tbTanggal.Enabled = false; tbKodeBeli1.Text = ""; tbKodeBeli2.Text = "";
             //datagrid
             dataGridView1.Rows.Clear(); dataGridView1.Refresh(); tbTotalBarang.Text = "0";
             dataGridView1.DataSource = null;
@@ -441,27 +437,13 @@ namespace KP
             {
                 nama = dataGridView1.Rows[i].Cells[0].Value.ToString();
                 jumlah = dataGridView1.Rows[i].Cells[1].Value.ToString();
-                harga = dataGridView1.Rows[i].Cells[2].Value.ToString();
-                kemasan= dataGridView1.Rows[i].Cells[3].Value.ToString();
+                kemasan = dataGridView1.Rows[i].Cells[2].Value.ToString();
+                harga = dataGridView1.Rows[i].Cells[3].Value.ToString();
                 total = dataGridView1.Rows[i].Cells[4].Value.ToString();
-                string[] temp2 = total.Split('.');
-                string gabungantotal2 = ""; // total per barang
-                foreach (string a in temp2)
-                {
-                    gabungantotal2 += a;
-                }
-                string[] temp4 = jumlah.Split('.');
-                string gabungantotal4 = ""; //jumlah barang
-                foreach (string a in temp4)
-                {
-                    gabungantotal4 += a;
-                }
-                string[] temp5 = harga.Split('.');
-                string gabungantotal5 = ""; //harga barang
-                foreach (string a in temp5)
-                {
-                    gabungantotal5 += a;
-                }
+                string gabungantotal2 = total.Replace(".", "");
+                string gabungantotal4 = jumlah.Replace(".", "");
+                string gabungantotal5 = harga.Replace(".", "");
+
                 //insert into table dbeli
                 cmd = new MySqlCommand("insert into dbeli values('" + kodenota + "', '" + nonota + "', '" + nama + "', '" + gabungantotal4 + "', '"+kemasan+"','"+gabungantotal5+"', '0', '0', '" + gabungantotal2 + "')", Koneksi.conn);
                 cmd.ExecuteNonQuery();
@@ -481,36 +463,47 @@ namespace KP
                 cmd.ExecuteNonQuery();
 
                 //update stok                
-                cmd = new MySqlCommand("select keluar from stok where id_barang='" + idbarang + "'", Koneksi.conn);
-                int keluar = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                cmd = new MySqlCommand("select masuk from stok where id_barang='" + idbarang + "'", Koneksi.conn);
+                int masuk = Convert.ToInt32(cmd.ExecuteScalar().ToString());
                 cmd = new MySqlCommand("select stok from stok where id_barang='" + idbarang + "'", Koneksi.conn);
                 int stok = Convert.ToInt32(cmd.ExecuteScalar().ToString());
-                keluar += Convert.ToInt32(gabungantotal4);
-                stok += keluar;
-                cmd = new MySqlCommand("update stok set masuk='" + keluar + "' , stok='" + stok + "' where id_barang='" + idbarang + "'", Koneksi.conn);
+                masuk += Convert.ToInt32(gabungantotal4);
+                stok += Convert.ToInt32(gabungantotal4);
+                cmd = new MySqlCommand("update stok set masuk='" + masuk + "' , stok='" + stok + "' where id_barang='" + idbarang + "'", Koneksi.conn);
                 cmd.ExecuteNonQuery();
                 this.ActiveControl = btnNew;
             }
-            string[] temp = tbTotal.Text.Split('.');
-            string gabungantotal = ""; //total nota beli
-            foreach (string a in temp)
-            {
-                gabungantotal += a;
-            }
+            string gabungantotal = tbTotal.Text.Replace(".", "");
+
+            //date time itu yyyy-mm-dd
+            string tglnow = tbTanggal.Text;
+            string[] splittgl = tglnow.Split('-');
+            string insertedtanggal = splittgl[2] + "-" + splittgl[1] + "-" + splittgl[0];
+
             //insert into table beli
-            cmd = new MySqlCommand("insert into beli values('" + kodenota + "', '" + nonota + "', '" + tbKodeSupp.Text + "', '" + tbTanggal.Text + "', '" + gabungantotal + "')", Koneksi.conn);
+            DateTime dt = Convert.ToDateTime(tbTanggal.Text);
+            dt=dt.AddDays(Convert.ToInt32(tbJatuhTempo.Text));
+            cmd = new MySqlCommand("insert into beli values('" + kodenota + "', '" + nonota + "', '" + tbKodeSupp.Text + "', '" +insertedtanggal + "', '" + gabungantotal + "','" + dt.ToString("yyyy-MM-dd") + "')", Koneksi.conn);
             cmd.ExecuteNonQuery();
             Koneksi.conn.Close();
-            
+
+            //insert into table hutang
+            Koneksi.openConn();
+            cmd = new MySqlCommand("insert into hutang values('" + nonota + "','" + tbKodeSupp.Text + "','"+gabungantotal+"','0')", Koneksi.conn);
+            cmd.ExecuteNonQuery();
+            Koneksi.conn.Close();
+
             // barang
             cbBarang.DataSource = null; tbKodeBarang.Enabled = false;
-            cbBarang.Enabled = false; tbJumlah.Enabled = false;tbSatuan.Text = "";
+            cbBarang.Enabled = false; tbJumlah.Enabled = false;tbSatuan.Text = "";tbTotalBarang.Enabled = false;
+
             tbJumlah.Text = "0"; tbTotal.Text = "0";tbTotal.Enabled = false;
             tbKodeBarang.Text = "";cbBarang.Text = "";tbHarga.Text = "0";
             //kop nota
             tbKodeBeli.Enabled = false; tbKodeSupp.Enabled = false; cbSupplier.Enabled = false;
-            tbAlamat.Text = ""; tbKota.Text = ""; tbKodeSupp.Text = ""; tbKodeBeli.Text = "";
+            tbAlamat.Text = ""; tbKota.Text = ""; tbKodeSupp.Text = ""; tbKodeBeli.Text = "";tbTanggal.Text = "";tbTanggal.Enabled = false;
             cbSupplier.DataSource = null;
+            tbJatuhTempo.Text = "42";tbJatuhTempo.Enabled = false;
             tbTanggal.Text = ""; tbKodeBeli1.Text = ""; tbKodeBeli2.Text = "";
             //datagrid
             dataGridView1.Rows.Clear(); dataGridView1.Refresh(); tbTotalBarang.Text = "0";
@@ -535,7 +528,8 @@ namespace KP
             }
             dataGridView1.Rows[index].Cells[0].Value = cbBarang.Text;
             dataGridView1.Rows[index].Cells[1].Value = tbJumlah.Text;
-            dataGridView1.Rows[index].Cells[3].Value = tbSatuan.Text;
+            dataGridView1.Rows[index].Cells[2].Value = tbSatuan.Text;
+            dataGridView1.Rows[index].Cells[3].Value = tbHarga.Text;
             dataGridView1.Rows[index].Cells[4].Value = tbTotalBarang.Text;
             hitungtotaltransaksi(); btnUpdate.Enabled = false;
         }
@@ -555,18 +549,8 @@ namespace KP
             if (tbTotalBarang.Text != "0" && tbJumlah.Text != "0")
             {
                 double temp = 0;
-                string[] tempJumlah = tbJumlah.Text.Split('.');
-                string gabunganJumlah = "";
-                foreach (string item in tempJumlah)
-                {
-                    gabunganJumlah += item;
-                }
-                string[] tempTotal = tbTotalBarang.Text.Split('.');
-                string gabunganTotal = "";
-                foreach (string item in tempTotal)
-                {
-                    gabunganTotal += item;
-                }
+                string gabunganJumlah = tbJumlah.Text.Replace(".","");
+                string gabunganTotal = tbTotalBarang.Text.Replace(".","");
                 double jumlah = Convert.ToDouble(gabunganJumlah);
                 double total = Convert.ToDouble(gabunganTotal);
                 temp = total / jumlah;
@@ -580,6 +564,82 @@ namespace KP
             this.Close();
             FormFindPembelian f = new FormFindPembelian();
             f.Show();
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            activate();loadbarang();btnCancel.Enabled = false;
+            string nonota = tbKodeBeli1.Text + "-" + tbKodeBeli2.Text;
+            Koneksi.openConn();
+            cmd = new MySqlCommand("select nama_barang,jumlah_barang from dbeli where id_beli='" + nonota + "'", Koneksi.conn);
+            dr = cmd.ExecuteReader();
+            List<string> namabarang = new List<string>();
+            List<string> qty = new List<string>();
+            while (dr.Read())
+            {
+                namabarang.Add(dr.GetString(0));
+                qty.Add(dr.GetString(1));
+            }
+            Koneksi.conn.Close();
+            Koneksi.openConn();
+            for (int i = 0; i < namabarang.Count; i++)
+            {
+                cmd = new MySqlCommand("select id_barang from barang where nama_barang='" + namabarang[i] + "'", Koneksi.conn);
+                string idbarang = cmd.ExecuteScalar().ToString();
+                int change = Convert.ToInt32(qty[i]);
+                cmd = new MySqlCommand("update stok set masuk=masuk-" + change + ", stok=stok-" + change + " where id_barang='" + idbarang + "'", Koneksi.conn);
+                cmd.ExecuteNonQuery();
+            }
+            Koneksi.conn.Close();
+            Koneksi.openConn();
+            cmd = new MySqlCommand("delete from dbeli where id_beli='" + nonota + "'", Koneksi.conn);
+            cmd.ExecuteNonQuery();
+            cmd = new MySqlCommand("delete from beli where id_beli='" + nonota + "'", Koneksi.conn);
+            cmd.ExecuteNonQuery();
+            Koneksi.conn.Close();
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            if (FormFindPembelian.index - 1 < 0)
+            {
+                FormFindPembelian.index = FormFindPembelian.listnonota.Count() - 1;
+            }
+            else
+            {
+                FormFindPembelian.index--;
+            }
+
+            isidatanota(); loaddatanota(); hitungtotaltransaksi();
+            loadinfosupp(FormFindPembelian.listidsupp[FormFindPembelian.index]);
+        }
+
+        private void btnPrev_Click(object sender, EventArgs e)
+        {            
+            if (FormFindPembelian.index + 1 > FormFindPembelian.listnonota.Count() - 1)
+            {
+                FormFindPembelian.index = 0;
+            }
+            else
+            {
+                FormFindPembelian.index++;
+            }
+
+            isidatanota(); loaddatanota(); hitungtotaltransaksi();
+            loadinfosupp(FormFindPembelian.listidsupp[FormFindPembelian.index]);
+        }
+
+        private void tbTanggal_Leave(object sender, EventArgs e)
+        {
+            DateTime temp;
+            if (!DateTime.TryParse(tbTanggal.Text, out temp))
+            {
+                if (tbTanggal.TextLength!=8)
+                {
+                    MessageBox.Show("Periksa Kembali Date Format");
+                    this.ActiveControl = tbTanggal;
+                }
+            }
         }
     }
 }

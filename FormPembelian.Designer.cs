@@ -72,6 +72,8 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnFind = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.tbJatuhTempo = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -82,7 +84,7 @@
             this.cbSupplier.Enabled = false;
             this.cbSupplier.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSupplier.FormattingEnabled = true;
-            this.cbSupplier.Location = new System.Drawing.Point(362, 63);
+            this.cbSupplier.Location = new System.Drawing.Point(269, 60);
             this.cbSupplier.Name = "cbSupplier";
             this.cbSupplier.Size = new System.Drawing.Size(379, 28);
             this.cbSupplier.TabIndex = 12;
@@ -93,7 +95,7 @@
             // 
             this.tbKota.Enabled = false;
             this.tbKota.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbKota.Location = new System.Drawing.Point(621, 97);
+            this.tbKota.Location = new System.Drawing.Point(528, 94);
             this.tbKota.Name = "tbKota";
             this.tbKota.Size = new System.Drawing.Size(120, 28);
             this.tbKota.TabIndex = 14;
@@ -102,7 +104,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(507, 27);
+            this.label7.Location = new System.Drawing.Point(414, 24);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(18, 25);
             this.label7.TabIndex = 28;
@@ -112,7 +114,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(618, 28);
+            this.label6.Location = new System.Drawing.Point(525, 25);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(19, 25);
             this.label6.TabIndex = 27;
@@ -122,7 +124,7 @@
             // 
             this.tbKodeBeli2.Enabled = false;
             this.tbKodeBeli2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbKodeBeli2.Location = new System.Drawing.Point(643, 25);
+            this.tbKodeBeli2.Location = new System.Drawing.Point(550, 22);
             this.tbKodeBeli2.Name = "tbKodeBeli2";
             this.tbKodeBeli2.Size = new System.Drawing.Size(98, 28);
             this.tbKodeBeli2.TabIndex = 10;
@@ -132,7 +134,7 @@
             // 
             this.tbKodeBeli1.Enabled = false;
             this.tbKodeBeli1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbKodeBeli1.Location = new System.Drawing.Point(530, 25);
+            this.tbKodeBeli1.Location = new System.Drawing.Point(437, 22);
             this.tbKodeBeli1.Name = "tbKodeBeli1";
             this.tbKodeBeli1.Size = new System.Drawing.Size(78, 28);
             this.tbKodeBeli1.TabIndex = 9;
@@ -143,7 +145,7 @@
             this.tbKodeBeli.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.tbKodeBeli.Enabled = false;
             this.tbKodeBeli.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbKodeBeli.Location = new System.Drawing.Point(459, 24);
+            this.tbKodeBeli.Location = new System.Drawing.Point(366, 21);
             this.tbKodeBeli.MaxLength = 2;
             this.tbKodeBeli.Name = "tbKodeBeli";
             this.tbKodeBeli.Size = new System.Drawing.Size(42, 28);
@@ -154,7 +156,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(368, 27);
+            this.label5.Location = new System.Drawing.Point(275, 24);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(85, 25);
             this.label5.TabIndex = 22;
@@ -164,7 +166,7 @@
             // 
             this.tbAlamat.Enabled = false;
             this.tbAlamat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbAlamat.Location = new System.Drawing.Point(248, 97);
+            this.tbAlamat.Location = new System.Drawing.Point(155, 94);
             this.tbAlamat.Name = "tbAlamat";
             this.tbAlamat.Size = new System.Drawing.Size(364, 28);
             this.tbAlamat.TabIndex = 13;
@@ -173,7 +175,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(169, 97);
+            this.label3.Location = new System.Drawing.Point(76, 94);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(73, 25);
             this.label3.TabIndex = 19;
@@ -183,7 +185,7 @@
             // 
             this.tbKodeSupp.Enabled = false;
             this.tbKodeSupp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbKodeSupp.Location = new System.Drawing.Point(248, 63);
+            this.tbKodeSupp.Location = new System.Drawing.Point(155, 60);
             this.tbKodeSupp.MaxLength = 4;
             this.tbKodeSupp.Name = "tbKodeSupp";
             this.tbKodeSupp.Size = new System.Drawing.Size(108, 28);
@@ -195,7 +197,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(158, 63);
+            this.label2.Location = new System.Drawing.Point(65, 60);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(84, 25);
             this.label2.TabIndex = 18;
@@ -205,17 +207,19 @@
             // 
             this.tbTanggal.Enabled = false;
             this.tbTanggal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTanggal.Location = new System.Drawing.Point(248, 27);
+            this.tbTanggal.Location = new System.Drawing.Point(155, 24);
             this.tbTanggal.Name = "tbTanggal";
             this.tbTanggal.Size = new System.Drawing.Size(100, 28);
             this.tbTanggal.TabIndex = 7;
             this.tbTanggal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbTanggal.Enter += new System.EventHandler(this.tbKodeSupp_Enter);
+            this.tbTanggal.Leave += new System.EventHandler(this.tbTanggal_Leave);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(158, 30);
+            this.label1.Location = new System.Drawing.Point(65, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(84, 25);
             this.label1.TabIndex = 16;
@@ -488,6 +492,7 @@
             this.btnNext.TabIndex = 22;
             this.btnNext.Text = ">";
             this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // btnPrev
             // 
@@ -499,6 +504,7 @@
             this.btnPrev.TabIndex = 21;
             this.btnPrev.Text = "<";
             this.btnPrev.UseVisualStyleBackColor = true;
+            this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
             // 
             // btnExit
             // 
@@ -543,6 +549,7 @@
             this.btnEdit.TabIndex = 2;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnDelete
             // 
@@ -577,11 +584,35 @@
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
+            // tbJatuhTempo
+            // 
+            this.tbJatuhTempo.Enabled = false;
+            this.tbJatuhTempo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbJatuhTempo.Location = new System.Drawing.Point(757, 93);
+            this.tbJatuhTempo.Name = "tbJatuhTempo";
+            this.tbJatuhTempo.Size = new System.Drawing.Size(51, 28);
+            this.tbJatuhTempo.TabIndex = 15;
+            this.tbJatuhTempo.Text = "42";
+            this.tbJatuhTempo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tbJatuhTempo.Enter += new System.EventHandler(this.tbKodeSupp_Enter);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(667, 96);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(74, 25);
+            this.label12.TabIndex = 32;
+            this.label12.Text = "Tempo";
+            // 
             // FormPembelian
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(885, 603);
+            this.Controls.Add(this.tbJatuhTempo);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cbSupplier);
             this.Controls.Add(this.tbKota);
@@ -656,5 +687,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox tbHarga;
+        private System.Windows.Forms.TextBox tbJatuhTempo;
+        private System.Windows.Forms.Label label12;
     }
 }

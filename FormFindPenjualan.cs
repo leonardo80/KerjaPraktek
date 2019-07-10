@@ -32,7 +32,7 @@ namespace KP
         public void loadnota(string kodenota)
         {
             kode = kodenota;
-            string stm = "select kode as Kode, id_jual as \"Nomer Nota\", id_customer as \"Kode Customer\", tanggal as Tanggal, totaljual as Total from jual order by id_jual desc";  
+            string stm = "select kode as Kode, id_jual as \"Nomer Nota\", id_customer as \"Kode Customer\", tanggal as Tanggal, format(totaljual,0,'de_de') as Total from jual order by id_jual desc"; 
             Koneksi.openConn();
             MySqlCommand cmd = new MySqlCommand(stm, Koneksi.conn);
             dr = cmd.ExecuteReader();
@@ -53,13 +53,16 @@ namespace KP
         private void FormFindPenjualan_Load(object sender, EventArgs e)
         {
             comboBox1.SelectedIndex = 0; comboBox2.SelectedIndex = 0;
-            string stm = "select kode as Kode, id_jual as \"Nomer Nota\", id_customer as \"Kode Customer\", tanggal as Tanggal, totaljual as Total from jual order by id_jual desc";
+            string stm = "select kode as Kode, id_jual as \"Nomer Nota\", id_customer as \"Kode Customer\", tanggal as Tanggal, format(totaljual,0,'de_de') as Total from jual order by id_jual desc";
             Koneksi.openConn();
             da=new MySqlDataAdapter(stm, Koneksi.conn);
             ds = new DataSet();
             da.Fill(ds);
             dataGridView1.DataSource = ds.Tables[0];
             loadnota(comboBox2.Text);
+            DataGridViewColumn col = dataGridView1.Columns[4];
+            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            this.ActiveControl = comboBox2;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -68,7 +71,7 @@ namespace KP
             loadnota(comboBox2.Text);
             if (comboBox1.Text == "KODE")
             {
-                da = new MySqlDataAdapter("select kode as Kode, id_jual as \"Nomer Nota\", id_customer as \"Kode Customer\", tanggal as Tanggal, totaljual as Total from jual where kode='" + comboBox2.Text+"' and id_jual like '%" + search + "%' order by id_jual desc ", Koneksi.conn);
+                da = new MySqlDataAdapter("select kode as Kode, id_jual as \"Nomer Nota\", id_customer as \"Kode Customer\", tanggal as Tanggal, format(totaljual,0,'de_de') as Total from jual where kode='" + comboBox2.Text+"' and id_jual like '%" + search + "%' order by id_jual desc ", Koneksi.conn);
                 ds = new DataSet();
                 da.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
@@ -76,18 +79,20 @@ namespace KP
             }
             if (comboBox1.Text == "CUSTOMER")
             {
-                da = new MySqlDataAdapter("select kode as Kode, id_jual as \"Nomer Nota\", id_customer as \"Kode Customer\", tanggal as Tanggal, totaljual as Total from jual where kode='" + comboBox2.Text + "' and id_customer like '%" + search + "%' order by id_jual desc ", Koneksi.conn);
+                da = new MySqlDataAdapter("select kode as Kode, id_jual as \"Nomer Nota\", id_customer as \"Kode Customer\", tanggal as Tanggal, format(totaljual,0,'de_de') as Total from jual where kode='" + comboBox2.Text + "' and id_customer like '%" + search + "%' order by id_jual desc ", Koneksi.conn);
                 ds = new DataSet();
                 da.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
             }
             if (comboBox1.Text == "TANGGAL")
             {
-                da = new MySqlDataAdapter("select kode as Kode, id_jual as \"Nomer Nota\", id_customer as \"Kode Customer\", tanggal as Tanggal, totaljual as Total from jual where kode='" + comboBox2.Text + "' and tanggal like '%" + search + "%' order by id_jual desc ", Koneksi.conn);
+                da = new MySqlDataAdapter("select kode as Kode, id_jual as \"Nomer Nota\", id_customer as \"Kode Customer\", tanggal as Tanggal, format(totaljual,0,'de_de') as Total from jual where kode='" + comboBox2.Text + "' and tanggal like '%" + search + "%' order by id_jual desc ", Koneksi.conn);
                 ds = new DataSet();
                 da.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
             }
+            DataGridViewColumn col = dataGridView1.Columns[4];
+            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
