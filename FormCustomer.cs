@@ -19,6 +19,7 @@ namespace KP
         public static MySqlDataAdapter da;
         public static DataSet ds;
         public static string sql;
+        public static string idcust;
         bool newbtn = false;
 
         public FormCustomer()
@@ -125,6 +126,7 @@ namespace KP
                     kosongitextbox();
                     this.ActiveControl = btnNew;
                     Koneksi.conn.Close();
+                    btnConfirm.Enabled = false;
                 }
                 else
                 {
@@ -134,8 +136,9 @@ namespace KP
             else
             {
                 MessageBox.Show("Data Belum Lengkap");
+                btnConfirm.Enabled = true;
             }
-            refreshlist();  newbtn = false; btnConfirm.Enabled = false;
+            refreshlist();  newbtn = false; 
         }
 
         private void btnNew_Click(object sender, EventArgs e)
@@ -192,6 +195,17 @@ namespace KP
                     tbTotalBeli.Text = "0";
                 }
                 Koneksi.conn.Close();
+                Koneksi.openConn();
+                try
+                {
+                    cmd = new MySqlCommand("select sum(total-dibayarkan) from piutang where id_customer='" + tbId.Text + "' group by id_customer", Koneksi.conn);
+                    tbHutang.Text = Function.separator(cmd.ExecuteScalar().ToString());
+                }
+                catch (Exception)
+                {
+                    tbHutang.Text = "0";
+                }
+                Koneksi.conn.Close();
             }
         }
 
@@ -245,6 +259,15 @@ namespace KP
             }
             tbId.Text = FormFindCustomer.listid[FormFindCustomer.index];
         }
-        
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (tbId.Text!="")
+            {
+                idcust = tbId.Text;
+                FormNotaCustomer f = new FormNotaCustomer();
+                f.Show();
+            }
+        }
     }
 }

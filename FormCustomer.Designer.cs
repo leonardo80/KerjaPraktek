@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbTelp = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.lbStatus = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.tbStatus = new System.Windows.Forms.TextBox();
@@ -53,8 +55,9 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tbTotalBeli = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.tbTelp = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.tbHutang = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -82,6 +85,26 @@
             this.groupBox1.TabIndex = 29;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Info";
+            // 
+            // tbTelp
+            // 
+            this.tbTelp.Enabled = false;
+            this.tbTelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTelp.Location = new System.Drawing.Point(85, 167);
+            this.tbTelp.MaxLength = 15;
+            this.tbTelp.Name = "tbTelp";
+            this.tbTelp.Size = new System.Drawing.Size(414, 30);
+            this.tbTelp.TabIndex = 11;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(6, 170);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(73, 25);
+            this.label7.TabIndex = 28;
+            this.label7.Text = "Telpon";
             // 
             // lbStatus
             // 
@@ -144,7 +167,7 @@
             this.tbKota.Enabled = false;
             this.tbKota.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbKota.Location = new System.Drawing.Point(85, 131);
-            this.tbKota.MaxLength = 8;
+            this.tbKota.MaxLength = 100;
             this.tbKota.Name = "tbKota";
             this.tbKota.Size = new System.Drawing.Size(414, 30);
             this.tbKota.TabIndex = 10;
@@ -334,47 +357,63 @@
             // 
             this.tbTotalBeli.Enabled = false;
             this.tbTotalBeli.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTotalBeli.Location = new System.Drawing.Point(244, 372);
+            this.tbTotalBeli.Location = new System.Drawing.Point(174, 378);
             this.tbTotalBeli.MaxLength = 8;
             this.tbTotalBeli.Name = "tbTotalBeli";
             this.tbTotalBeli.Size = new System.Drawing.Size(303, 30);
             this.tbTotalBeli.TabIndex = 29;
+            this.tbTotalBeli.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(74, 374);
+            this.label6.Location = new System.Drawing.Point(4, 380);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(164, 25);
             this.label6.TabIndex = 28;
             this.label6.Text = "Total Pembelian :";
             // 
-            // tbTelp
+            // tbHutang
             // 
-            this.tbTelp.Enabled = false;
-            this.tbTelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTelp.Location = new System.Drawing.Point(85, 167);
-            this.tbTelp.MaxLength = 15;
-            this.tbTelp.Name = "tbTelp";
-            this.tbTelp.Size = new System.Drawing.Size(414, 30);
-            this.tbTelp.TabIndex = 11;
+            this.tbHutang.Enabled = false;
+            this.tbHutang.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbHutang.Location = new System.Drawing.Point(174, 414);
+            this.tbHutang.MaxLength = 8;
+            this.tbHutang.Name = "tbHutang";
+            this.tbHutang.Size = new System.Drawing.Size(303, 30);
+            this.tbHutang.TabIndex = 32;
+            this.tbHutang.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // label7
+            // label8
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(6, 170);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(73, 25);
-            this.label7.TabIndex = 28;
-            this.label7.Text = "Telpon";
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(33, 414);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(135, 25);
+            this.label8.TabIndex = 31;
+            this.label8.Text = "Total Hutang :";
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(483, 378);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(149, 66);
+            this.button1.TabIndex = 29;
+            this.button1.Text = "History";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // FormCustomer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(630, 539);
+            this.ClientSize = new System.Drawing.Size(644, 539);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.tbHutang);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.tbTotalBeli);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox2);
@@ -418,5 +457,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox tbTelp;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tbHutang;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button button1;
     }
 }

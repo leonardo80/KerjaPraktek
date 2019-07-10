@@ -27,17 +27,20 @@ namespace KP
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            id = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-            for (int i = 0; i < listid.Count(); i++)
+            if (Login.activeuser=="SUPERVISOR")
             {
-                if (listid[i]==id)
+                id = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+                for (int i = 0; i < listid.Count(); i++)
                 {
-                    index = i;
+                    if (listid[i] == id)
+                    {
+                        index = i;
+                    }
                 }
+                this.Close();
+                FormBarang g = new FormBarang();
+                g.Show();
             }
-            this.Close();
-            FormBarang g = new FormBarang();
-            g.Show();
         }
 
         public void settingdatagrid()
@@ -46,11 +49,15 @@ namespace KP
             col = dataGridView1.Columns[0]; col.Width = 65;
             col = dataGridView1.Columns[1]; col.Width = 200;
             col = dataGridView1.Columns[2]; col.Width = 50;
+            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             col = dataGridView1.Columns[3]; col.Width = 70;
             col = dataGridView1.Columns[4]; col.Width = 80;
+            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             col = dataGridView1.Columns[5]; col.Width = 120;
             col = dataGridView1.Columns[6]; col.Width = 120;
             col = dataGridView1.Columns[7]; col.Width = 50;
+            col = dataGridView1.Columns[8]; col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            col.Width = 70;
         }
 
         public static void eraselistbarang()
@@ -65,8 +72,7 @@ namespace KP
         {
             Koneksi.openConn();
             comboBox1.SelectedIndex = 0;
-
-            da = new MySqlDataAdapter("select b.id_barang as \"ID Barang\", b.nama_barang as \"Nama Barang\", s.stok as Stok, b.satuan_barang as Satuan, b.harga_barang as Harga, b.nama_kategori as \"Nama Kategori\", b.deskripsi as Deskripsi, b.status as Status from barang b, stok s where s.id_barang=b.id_barang and status='Aktif' order by b.id_barang", Koneksi.conn);
+            da = new MySqlDataAdapter("select b.id_barang as \"ID Barang\", b.nama_barang as \"Nama Barang\", format(s.stok,0,'de_DE') as Stok, b.satuan_barang as Satuan, format(b.harga_barang,0,'de_DE') as Harga, b.nama_kategori as \"Nama Kategori\", b.deskripsi as Deskripsi, b.status as Status, format(h.hpp,0,'de_DE') as HPP from hpp h, barang b, stok s where b.id_barang=h.id_barang and s.id_barang=b.id_barang and status='Aktif' order by b.id_barang", Koneksi.conn);
             ds = new DataSet();
             da.Fill(ds);
             dataGridView1.DataSource = ds.Tables[0];
@@ -85,7 +91,7 @@ namespace KP
 
         public static void loadlistbarang()
         {
-            string stm = "select id_barang as \"ID Barang\", nama_barang as \"Nama Barang\", satuan_barang as Satuan, harga_barang as Harga, nama_kategori as \"Nama Kategori\", deskripsi as Deskripsi, status as Status from barang where status='Aktif' order by id_barang";
+            string stm = "select b.id_barang as \"ID Barang\", b.nama_barang as \"Nama Barang\", b.satuan_barang as Satuan, format(b.harga_barang,0,'de_DE') as Harga, b.nama_kategori as \"Nama Kategori\", b.deskripsi as Deskripsi, b.status as Status, format(h.hpp,0,'de_DE') as HPP from barang b, hpp h where b.id_barang=h.id_barang and status='Aktif' order by b.id_barang";
             Koneksi.openConn();
             MySqlCommand cmd = new MySqlCommand(stm, Koneksi.conn);
             dr = cmd.ExecuteReader();
@@ -109,14 +115,14 @@ namespace KP
             Koneksi.openConn();
             if (comboBox1.Text=="ID")
             {
-                da = new MySqlDataAdapter("select b.id_barang as \"ID Barang\", b.nama_barang as \"Nama Barang\", s.stok as Stok, b.satuan_barang as Satuan, b.harga_barang as Harga, b.nama_kategori as \"Nama Kategori\", b.deskripsi as Deskripsi, b.status as Status from barang b, stok s where s.id_barang=b.id_barang and b.id_barang like '%" + search + "%' and b.status='Aktif'", Koneksi.conn);
+                da = new MySqlDataAdapter("select b.id_barang as \"ID Barang\", b.nama_barang as \"Nama Barang\", format(s.stok,0,'de_DE') as Stok, b.satuan_barang as Satuan, format(b.harga_barang,0,'de_DE') as Harga, b.nama_kategori as \"Nama Kategori\", b.deskripsi as Deskripsi, b.status as Status, format(h.hpp,0,'de_DE') as HPP from barang b, stok s, hpp h where b.id_barang=h.id_barang and s.id_barang=b.id_barang and b.id_barang like '%" + search + "%' and b.status='Aktif'", Koneksi.conn);
                 ds = new DataSet();
                 da.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
             }
             else if (comboBox1.Text=="NAMA")
             {
-                da = new MySqlDataAdapter("select b.id_barang as \"ID Barang\", b.nama_barang as \"Nama Barang\", s.stok as Stok, b.satuan_barang as Satuan, b.harga_barang as Harga, b.nama_kategori as \"Nama Kategori\", b.deskripsi as Deskripsi, b.status as Status from barang b, stok s where s.id_barang=b.id_barang and b.nama_barang like '%" + search + "%' and b.status='Aktif' ", Koneksi.conn);
+                da = new MySqlDataAdapter("select b.id_barang as \"ID Barang\", b.nama_barang as \"Nama Barang\", format(s.stok,0,'de_DE') as Stok, b.satuan_barang as Satuan, format(b.harga_barang,0,'de_DE') as Harga, b.nama_kategori as \"Nama Kategori\", b.deskripsi as Deskripsi, b.status as Status, format(h.hpp,0,'de_DE') as HPP from barang b, stok s, hpp h where b.id_barang=h.id_barang and s.id_barang=b.id_barang and b.nama_barang like '%" + search + "%' and b.status='Aktif' ", Koneksi.conn);
                 ds = new DataSet();
                 da.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
@@ -125,7 +131,7 @@ namespace KP
             {
                 try
                 {
-                    da = new MySqlDataAdapter("select b.id_barang as \"ID Barang\", b.nama_barang as \"Nama Barang\", s.stok as Stok, b.satuan_barang as Satuan, b.harga_barang as Harga, b.nama_kategori as \"Nama Kategori\", b.deskripsi as Deskripsi, b.status as Status from barang b, stok s where s.id_barang=b.id_barang and b.nama_kategori='" + textBox1.Text + "' and b.status='Aktif' ", Koneksi.conn);
+                    da = new MySqlDataAdapter("select b.id_barang as \"ID Barang\", b.nama_barang as \"Nama Barang\", format(s.stok,0,'de_DE') as Stok, b.satuan_barang as Satuan, format(b.harga_barang,0,'de_DE') as Harga, b.nama_kategori as \"Nama Kategori\", b.deskripsi as Deskripsi, b.status as Status, format(h.hpp,0,'de_DE') as HPP from barang b, stok s, hpp h where b.id_barang=h.id_barang and s.id_barang=b.id_barang and b.nama_kategori='" + textBox1.Text + "' and b.status='Aktif' ", Koneksi.conn);
                     ds = new DataSet();
                     da.Fill(ds);
                     dataGridView1.DataSource = ds.Tables[0];

@@ -66,10 +66,6 @@ namespace KP
             }
             cbKategori.DataSource = listkategori;
             Koneksi.conn.Close();
-            //Koneksi.openConn();
-            //cmd = new MySqlCommand("select nama_kategori from barang where id_barang='"+tbId.Text+"'",Koneksi.conn);
-            //cbKategori.Text = cmd.ExecuteScalar().ToString();
-            //Koneksi.conn.Close();
         }
 
         public void refreshlist()
@@ -153,32 +149,19 @@ namespace KP
             if (tbId.Enabled==false)
             {
                 Koneksi.openConn();
-                string[] temp = tbHarga.Text.Split('.');
-                string gabungan = "";
-                foreach (string a in temp)
-                {
-                    gabungan += a;
-                }
-                
-                cmd = new MySqlCommand("update barang set nama_barang ='"+tbNama.Text+"', satuan_barang='"+tbKemasan.Text+"', harga_barang='"+gabungan+"', nama_kategori='"+cbKategori.Text+"', deskripsi='"+tbDeskripsi.Text+"' where id_barang='"+tbId.Text+"' ", Koneksi.conn);
+                cmd = new MySqlCommand("update barang set nama_barang ='"+tbNama.Text+"', satuan_barang='"+tbKemasan.Text+"', harga_barang='"+tbHarga.Text.Replace(".","")+"', nama_kategori='"+cbKategori.Text+"', deskripsi='"+tbDeskripsi.Text+"' where id_barang='"+tbId.Text+"' ", Koneksi.conn);
                 cmd.ExecuteNonQuery();
                 btnCancel.Enabled = false;
                 btnConfirm.Enabled = false;
                 disabletextbox();            
                 Koneksi.conn.Close();
             }
-            else if (tbId.Text != "" && tbNama.Text != "" && tbKemasan.Text != "" && tbHarga.Text != "")
+            else if (tbId.Text != "" && tbNama.Text != "" && tbKemasan.Text != "" && tbHarga.Text != "" && tbId.Text.Length==6)
             {
                 Koneksi.openConn();
 
                 //insert barang into table barang
-                string[] temp = tbHarga.Text.Split('.');
-                string gabungan = "";
-                foreach (string a in temp)
-                {
-                    gabungan += a;
-                }
-                cmd = new MySqlCommand("insert into barang values('" + tbId.Text + "','" + tbNama.Text + "','" + tbKemasan.Text + "','" + gabungan + "','"+cbKategori.Text+"','"+tbDeskripsi.Text+"','Aktif','0')", Koneksi.conn);
+                cmd = new MySqlCommand("insert into barang values('" + tbId.Text + "','" + tbNama.Text + "','" + tbKemasan.Text + "','" + tbHarga.Text.Replace(".","") + "','"+cbKategori.Text+"','"+tbDeskripsi.Text+"','Aktif','0')", Koneksi.conn);
                 cmd.ExecuteNonQuery();
 
                 //insert into stok table
@@ -426,7 +409,7 @@ namespace KP
                 FormFindBarang.listid.Clear();
                 FormFindBarang.loadlistbarang();
                 MessageBox.Show("Berhasil Menghapus Data");
-                tbId.Text = FormFindBarang.listid[ind];
+                tbId.Text = FormFindBarang.listid[0];
                 FormFindBarang.index = ind;
             }            
         }

@@ -34,7 +34,7 @@ namespace KP
         public void loaddata()
         {
             Koneksi.openConn();
-            da = new MySqlDataAdapter("select id_barang as \"ID Barang\", nama_barang as \"Nama Barang\", satuan_barang as Satuan, harga_barang as Harga, nama_kategori as \"Nama Kategori\", deskripsi as Deskripsi, status as Status from barang where status='Tidak Aktif' order by id_barang", Koneksi.conn);
+            da = new MySqlDataAdapter("select id_barang as \"ID Barang\", nama_barang as \"Nama Barang\", satuan_barang as Satuan, format(harga_barang,0,'de_DE') as Harga, nama_kategori as \"Nama Kategori\", deskripsi as Deskripsi, status as Status from barang where status='Tidak Aktif' order by id_barang", Koneksi.conn);
             ds = new DataSet();
             da.Fill(ds);
             dataGridView1.DataSource = null;
@@ -54,6 +54,7 @@ namespace KP
             col = dataGridView1.Columns[1]; col.Width = 200;
             col = dataGridView1.Columns[2]; col.Width = 60;
             col = dataGridView1.Columns[3]; col.Width = 70;
+            col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             col = dataGridView1.Columns[4]; col.Width = 100;
             col = dataGridView1.Columns[5]; col.Width = 120;
             col = dataGridView1.Columns[6]; col.Width = 80;
